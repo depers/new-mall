@@ -1,7 +1,9 @@
-package cn.bravedawn.api;
+package cn.bravedawn;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
 /**
  * @Author : fengx9
@@ -9,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Date : Created in 2023-12-28 10:58
  */
 
-@SpringBootApplication
+@SpringBootApplication(exclude = {RedisAutoConfiguration.class, SecurityAutoConfiguration.class})
 public class Application {
 
     public static void main(String[] args) {
