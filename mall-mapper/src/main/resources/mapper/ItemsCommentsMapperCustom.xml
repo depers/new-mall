@@ -36,7 +36,7 @@
 
   </select>
   
-  <resultMap id="myComments" type="cn.bravedawn.pojo.vo.MyCommentVO">
+  <resultMap id="myComments" type="cn.bravedawn.vo.MyCommentVO">
     <id column="commentId" property="commentId"/>
     <result column="content" property="content"/>
     <result column="createdTime" property="createdTime"/>

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.bravedawn.mapper.OrdersMapperCustom" >
 
-  <resultMap id="myOrdersVO" type="cn.bravedawn.pojo.vo.MyOrdersVO">
+  <resultMap id="myOrdersVO" type="cn.bravedawn.vo.MyOrdersVO">
     <id column="orderId" property="orderId"/>
     <result column="createdTime" property="createdTime"/>
     <result column="payMethod" property="payMethod"/>
@@ -14,7 +14,7 @@
     <collection property="subOrderItemList"
                 select="getSubItems"
                 column="orderId"
-                ofType="cn.bravedawn.pojo.vo.MySubOrderItemVO">
+                ofType="cn.bravedawn.vo.MySubOrderItemVO">
       <result column="itemId" property="itemId"/>
       <result column="itemName" property="itemName"/>
       <result column="itemImg" property="itemImg"/>
@@ -51,7 +51,7 @@
   </select>
     
     
-    <select id="getSubItems" parameterType="String" resultType="cn.bravedawn.pojo.vo.MySubOrderItemVO">
+    <select id="getSubItems" parameterType="String" resultType="cn.bravedawn.vo.MySubOrderItemVO">
 
       select
         oi.item_id as itemId,

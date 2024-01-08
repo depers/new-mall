@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.bravedawn.mapper.CategoryMapperCustom" >
 
-  <resultMap id="myCategoryVO" type="cn.bravedawn.pojo.vo.CategoryVO">
+  <resultMap id="myCategoryVO" type="cn.bravedawn.vo.CategoryVO">
     <id column="id" property="id"/>
     <result column="name" property="name"/>
     <result column="type" property="type"/>
@@ -13,7 +13,7 @@
       property：对应三级分类的list属性名
       ofType：集合的类型，三级分类的vo
     -->
-    <collection property="subCatList" ofType="cn.bravedawn.pojo.vo.SubCategoryVO">
+    <collection property="subCatList" ofType="cn.bravedawn.vo.SubCategoryVO">
       <id column="subId" property="subId"/>
       <result column="subName" property="subName"/>
       <result column="subType" property="subType"/>
@@ -41,14 +41,14 @@
         f.father_id = #{rootCatId}
   </select>
 
-    <resultMap id="myNewItemsVO" type="cn.bravedawn.pojo.vo.NewItemsVO">
+    <resultMap id="myNewItemsVO" type="cn.bravedawn.vo.NewItemsVO">
         <id column="rootCatId" property="rootCatId"/>
         <result column="rootCatName" property="rootCatName"/>
         <result column="slogan" property="slogan"/>
         <result column="catImage" property="catImage"/>
         <result column="bgColor" property="bgColor"/>
 
-        <collection property="simpleItemList" ofType="cn.bravedawn.pojo.vo.SimpleItemVO">
+        <collection property="simpleItemList" ofType="cn.bravedawn.vo.SimpleItemVO">
             <id column="itemId" property="itemId"/>
             <result column="itemName" property="itemName"/>
             <result column="itemUrl" property="itemUrl"/>
