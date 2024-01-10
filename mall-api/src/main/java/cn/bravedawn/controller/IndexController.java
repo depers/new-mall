@@ -8,9 +8,9 @@ import cn.bravedawn.service.CarouselService;
 import cn.bravedawn.service.CategoryService;
 import cn.bravedawn.vo.CategoryVO;
 import cn.bravedawn.vo.NewItemsVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Api(value = "首页", tags = {"首页展示的相关接口"})
+@Tag(name = "首页", description = "首页展示的相关接口")
 @RestController
 @RequestMapping("index")
 public class IndexController {
@@ -30,7 +30,7 @@ public class IndexController {
     @Autowired
     private CategoryService categoryService;
 
-    @ApiOperation(value = "获取首页轮播图列表", notes = "获取首页轮播图列表", httpMethod = "GET")
+    @Operation(summary = "获取首页轮播图列表", description = "获取首页轮播图列表", method = "GET")
     @GetMapping("/carousel")
     public JsonResult carousel() {
         List<Carousel> list = carouselService.queryAll(YesOrNo.YES.type);
@@ -43,7 +43,7 @@ public class IndexController {
      * 1. 第一次刷新主页查询大分类，渲染展示到首页
      * 2. 如果鼠标上移到大分类，则加载其子分类的内容，如果已经存在子分类，则不需要加载（懒加载）
      */
-    @ApiOperation(value = "获取商品分类(一级分类)", notes = "获取商品分类(一级分类)", httpMethod = "GET")
+    @Operation(summary = "获取商品分类(一级分类)", description = "获取商品分类(一级分类)", method = "GET")
     @GetMapping("/cats")
     public JsonResult cats() {
         List<Category> list = categoryService.queryAllRootLevelCat();
@@ -51,10 +51,10 @@ public class IndexController {
     }
 
 
-    @ApiOperation(value = "获取商品子分类", notes = "获取商品子分类", httpMethod = "GET")
+    @Operation(summary = "获取商品子分类", description = "获取商品子分类", method = "GET")
     @GetMapping("/subCat/{rootCatId}")
     public JsonResult subCat(
-            @ApiParam(name = "rootCatId", value = "一级分类id", required = true)
+            @Parameter(name = "rootCatId", description = "一级分类id", required = true)
             @PathVariable Integer rootCatId) {
 
         if (rootCatId == null) {
@@ -67,10 +67,10 @@ public class IndexController {
 
 
 
-    @ApiOperation(value = "查询每个一级分类下的最新6条商品数据", notes = "查询每个一级分类下的最新6条商品数据", httpMethod = "GET")
+    @Operation(summary = "查询每个一级分类下的最新6条商品数据", description = "查询每个一级分类下的最新6条商品数据", method = "GET")
     @GetMapping("/sixNewItems/{rootCatId}")
     public JsonResult sixNewItems(
-            @ApiParam(name = "rootCatId", value = "一级分类id", required = true)
+            @Parameter(name = "rootCatId", description = "一级分类id", required = true)
             @PathVariable Integer rootCatId) {
 
         if (rootCatId == null) {

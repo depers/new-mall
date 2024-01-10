@@ -2,6 +2,8 @@ package cn.bravedawn.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.SchemaProperty;
 
 /**
  *
@@ -18,17 +20,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * 				555：异常抛出信息
  * 				556: 用户qq校验异常
  * 			    557：校验用户是否在CAS登录，用户门票的校验
- * @Copyright: Copyright (c) 2020
- * @Company: www.imooc.com
- * @author 慕课网 - 风间影月
- * @version V1.0
  */
+@Schema(description = "统一的响应封装")
 public class JsonResult {
 
     // 定义jackson对象
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     // 响应业务状态
+    @Schema(name = "status", title = "状态", )
     private Integer status;
 
     // 响应消息
