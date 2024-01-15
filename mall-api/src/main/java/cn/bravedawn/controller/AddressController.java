@@ -5,8 +5,8 @@ import cn.bravedawn.dto.JsonResult;
 import cn.bravedawn.pojo.UserAddress;
 import cn.bravedawn.service.AddressService;
 import cn.bravedawn.utils.MobileEmailUtils;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,7 @@ import java.util.List;
  */
 
 
-@Api(value = "地址相关", tags = {"地址相关的api接口"})
+@Tag(name = "地址相关", description = "地址相关的api接口")
 @RequestMapping("address")
 @RestController
 public class AddressController {
@@ -37,7 +37,7 @@ public class AddressController {
     @Autowired
     private AddressService addressService;
 
-    @ApiOperation(value = "根据用户id查询收货地址列表", notes = "根据用户id查询收货地址列表", httpMethod = "POST")
+    @Operation(summary = "根据用户id查询收货地址列表", description = "根据用户id查询收货地址列表")
     @PostMapping("/list")
     public JsonResult list(
             @RequestParam String userId) {
@@ -50,7 +50,7 @@ public class AddressController {
         return JsonResult.ok(list);
     }
 
-    @ApiOperation(value = "用户新增地址", notes = "用户新增地址", httpMethod = "POST")
+    @Operation(summary = "用户新增地址", description = "用户新增地址")
     @PostMapping("/add")
     public JsonResult add(@RequestBody AddressBO addressBO) {
 
@@ -98,7 +98,7 @@ public class AddressController {
         return JsonResult.ok();
     }
 
-    @ApiOperation(value = "用户修改地址", notes = "用户修改地址", httpMethod = "POST")
+    @Operation(summary = "用户修改地址", description = "用户修改地址")
     @PostMapping("/update")
     public JsonResult update(@RequestBody AddressBO addressBO) {
 
@@ -116,7 +116,7 @@ public class AddressController {
         return JsonResult.ok();
     }
 
-    @ApiOperation(value = "用户删除地址", notes = "用户删除地址", httpMethod = "POST")
+    @Operation(summary = "用户删除地址", description = "用户删除地址")
     @PostMapping("/delete")
     public JsonResult delete(
             @RequestParam String userId,
@@ -130,7 +130,7 @@ public class AddressController {
         return JsonResult.ok();
     }
 
-    @ApiOperation(value = "用户设置默认地址", notes = "用户设置默认地址", httpMethod = "POST")
+    @Operation(summary = "用户设置默认地址", description = "用户设置默认地址")
     @PostMapping("/setDefalut")
     public JsonResult setDefalut(
             @RequestParam String userId,

@@ -28,13 +28,15 @@ public class JsonResult {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     // 响应业务状态
-    @Schema(name = "status", title = "状态", )
+    @Schema(description = "状态码", example = "200")
     private Integer status;
 
     // 响应消息
+    @Schema(description = "消息", example = "交易成功")
     private String msg;
 
     // 响应中的数据
+    @Schema(description = "返回的数据")
     private Object data;
 
     @JsonIgnore

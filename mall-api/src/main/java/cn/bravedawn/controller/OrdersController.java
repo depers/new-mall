@@ -10,8 +10,8 @@ import cn.bravedawn.property.PaymentProperty;
 import cn.bravedawn.service.OrderService;
 import cn.bravedawn.vo.MerchantOrdersVO;
 import cn.bravedawn.vo.OrderVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ import org.springframework.web.client.RestTemplate;
 
 
 
-@Api(value = "订单相关", tags = {"订单相关的api接口"})
+@Tag(name = "订单相关", description = "订单相关的api接口")
 @RequestMapping("orders")
 @RestController
 public class OrdersController extends BaseController {
@@ -42,7 +42,7 @@ public class OrdersController extends BaseController {
     @Autowired
     private PaymentProperty paymentProperty;
 
-    @ApiOperation(value = "用户下单", notes = "用户下单", httpMethod = "POST")
+    @Operation(summary = "用户下单", description = "用户下单")
     @PostMapping("/create")
     public JsonResult create(
             @RequestBody SubmitOrderBO submitOrderBO,

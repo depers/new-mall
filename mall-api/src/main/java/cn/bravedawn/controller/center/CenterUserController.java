@@ -9,9 +9,9 @@ import cn.bravedawn.service.center.CenterUserService;
 import cn.bravedawn.utils.CookieUtils;
 import cn.bravedawn.utils.DateUtil;
 import cn.bravedawn.utils.JsonUtils;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Api(value = "用户信息接口", tags = {"用户信息相关接口"})
+@Tag(name = "用户中心-用户信息接口", description = "用户信息相关接口")
 @RestController
 @RequestMapping("userInfo")
 public class CenterUserController extends BaseController {
@@ -43,12 +43,12 @@ public class CenterUserController extends BaseController {
     @Autowired
     private FileUpload fileUpload;
 
-    @ApiOperation(value = "用户头像修改", notes = "用户头像修改", httpMethod = "POST")
+    @Operation(summary = "用户头像修改", description = "用户头像修改")
     @PostMapping("uploadFace")
     public JsonResult uploadFace(
-            @ApiParam(name = "userId", value = "用户id", required = true)
+            @Parameter(description = "用户id", required = true)
             @RequestParam String userId,
-            @ApiParam(name = "file", value = "用户头像", required = true)
+            @Parameter(description = "用户头像", required = true)
             MultipartFile file,
             HttpServletRequest request, HttpServletResponse response) {
 
@@ -139,10 +139,10 @@ public class CenterUserController extends BaseController {
 
 
 
-    @ApiOperation(value = "修改用户信息", notes = "修改用户信息", httpMethod = "POST")
+    @Operation(summary = "修改用户信息", description = "修改用户信息")
     @PostMapping("update")
     public JsonResult update(
-            @ApiParam(name = "userId", value = "用户id", required = true)
+            @Parameter(description = "用户id", required = true)
             @RequestParam String userId,
             @RequestBody @Valid CenterUserBO centerUserBO,
             BindingResult result,

@@ -7,8 +7,9 @@ import cn.bravedawn.service.UserService;
 import cn.bravedawn.utils.CookieUtils;
 import cn.bravedawn.utils.JsonUtils;
 import cn.bravedawn.utils.MD5Utils;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
-@Api(value = "注册登录", tags = {"用于注册登录的相关接口"})
+@Tag(name = "注册登录", description = "用于注册登录的相关接口")
 @RestController
 @RequestMapping("passport")
 public class PassportController {
@@ -24,7 +25,7 @@ public class PassportController {
     @Autowired
     private UserService userService;
 
-    @ApiOperation(value = "用户名是否存在", notes = "用户名是否存在", httpMethod = "GET")
+    @Operation(summary = "用户名是否存在", description = "用户名是否存在")
     @GetMapping("/usernameIsExist")
     public JsonResult usernameIsExist(@RequestParam String username) {
 
@@ -43,7 +44,7 @@ public class PassportController {
         return JsonResult.ok();
     }
 
-    @ApiOperation(value = "用户注册", notes = "用户注册", httpMethod = "POST")
+    @Operation(summary = "用户注册", description = "用户注册")
     @PostMapping("/register")
     public JsonResult register(@RequestBody UserBO userBO,
                                   HttpServletRequest request,
@@ -90,7 +91,7 @@ public class PassportController {
         return JsonResult.ok();
     }
 
-    @ApiOperation(value = "用户登录", notes = "用户登录", httpMethod = "POST")
+    @Operation(summary = "用户登录", description = "用户登录")
     @PostMapping("/login")
     public JsonResult login(@RequestBody UserBO userBO,
                                  HttpServletRequest request,
@@ -136,9 +137,10 @@ public class PassportController {
     }
 
 
-    @ApiOperation(value = "用户退出登录", notes = "用户退出登录", httpMethod = "POST")
+    @Operation(summary = "用户退出登录", description = "用户退出登录")
     @PostMapping("/logout")
-    public JsonResult logout(@RequestParam String userId,
+    public JsonResult logout(@Parameter(description = "用户Id", required = true)
+                             @RequestParam String userId,
                                   HttpServletRequest request,
                                   HttpServletResponse response) {
 

@@ -10,7 +10,7 @@ import org.aspectj.lang.annotation.Aspect;
  * @Project : new-mall
  * @Date : Created in 2024-01-08 11:12
  *
- * 日志打印切面
+ * 日志打印切面，统计service的执行时间
  */
 
 @Aspect

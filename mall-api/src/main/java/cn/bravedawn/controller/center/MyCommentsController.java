@@ -9,9 +9,9 @@ import cn.bravedawn.enums.YesOrNo;
 import cn.bravedawn.pojo.OrderItems;
 import cn.bravedawn.pojo.Orders;
 import cn.bravedawn.service.center.MyCommentsService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(value = "用户中心评价模块", tags = {"用户中心评价模块相关接口"})
+@Tag(name = "用户中心-评价模块", description = "用户中心评价模块相关接口")
 @RestController
 @RequestMapping("mycomments")
 public class MyCommentsController extends BaseController {
@@ -27,12 +27,12 @@ public class MyCommentsController extends BaseController {
     @Autowired
     private MyCommentsService myCommentsService;
 
-    @ApiOperation(value = "查询订单列表", notes = "查询订单列表", httpMethod = "POST")
+    @Operation(summary = "查询订单列表", description = "查询订单列表")
     @PostMapping("/pending")
     public JsonResult pending(
-            @ApiParam(name = "userId", value = "用户id", required = true)
+            @Parameter(description = "用户id", required = true)
             @RequestParam String userId,
-            @ApiParam(name = "orderId", value = "订单id", required = true)
+            @Parameter(description = "订单id", required = true)
             @RequestParam String orderId) {
 
         // 判断用户和订单是否关联
@@ -52,12 +52,12 @@ public class MyCommentsController extends BaseController {
     }
 
 
-    @ApiOperation(value = "保存评论列表", notes = "保存评论列表", httpMethod = "POST")
+    @Operation(summary = "保存评论列表", description = "保存评论列表")
     @PostMapping("/saveList")
     public JsonResult saveList(
-            @ApiParam(name = "userId", value = "用户id", required = true)
+            @Parameter(description = "用户id", required = true)
             @RequestParam String userId,
-            @ApiParam(name = "orderId", value = "订单id", required = true)
+            @Parameter(description = "订单id", required = true)
             @RequestParam String orderId,
             @RequestBody List<OrderItemsCommentBO> commentList) {
 
@@ -77,14 +77,14 @@ public class MyCommentsController extends BaseController {
         return JsonResult.ok();
     }
 
-    @ApiOperation(value = "查询我的评价", notes = "查询我的评价", httpMethod = "POST")
+    @Operation(summary = "查询我的评价", description = "查询我的评价")
     @PostMapping("/query")
     public JsonResult query(
-            @ApiParam(name = "userId", value = "用户id", required = true)
+            @Parameter(description = "用户id", required = true)
             @RequestParam String userId,
-            @ApiParam(name = "page", value = "查询下一页的第几页", required = false)
+            @Parameter(description = "查询下一页的第几页", required = false)
             @RequestParam Integer page,
-            @ApiParam(name = "pageSize", value = "分页的每一页显示的条数", required = false)
+            @Parameter(description = "分页的每一页显示的条数", required = false)
             @RequestParam Integer pageSize) {
 
         if (StringUtils.isBlank(userId)) {

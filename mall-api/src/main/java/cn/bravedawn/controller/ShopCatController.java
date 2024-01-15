@@ -2,8 +2,8 @@ package cn.bravedawn.controller;
 
 import cn.bravedawn.bo.ShopCartBO;
 import cn.bravedawn.dto.JsonResult;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.*;
  */
 
 
-@Api(value = "购物车接口controller", tags = {"购物车接口相关的api"})
+@Tag(name = "购物车接口controller", description = "购物车接口相关的api")
 @RequestMapping("shopcart")
 @RestController
 @Slf4j
 public class ShopCatController {
 
-    @ApiOperation(value = "添加商品到购物车", notes = "添加商品到购物车", httpMethod = "POST")
+    @Operation(summary = "添加商品到购物车", description = "添加商品到购物车")
     @PostMapping("/add")
     public JsonResult add(
             @RequestParam String userId,
@@ -41,7 +41,7 @@ public class ShopCatController {
         return JsonResult.ok();
     }
 
-    @ApiOperation(value = "从购物车中删除商品", notes = "从购物车中删除商品", httpMethod = "POST")
+    @Operation(summary = "从购物车中删除商品", description = "从购物车中删除商品")
     @PostMapping("/del")
     public JsonResult del(
             @RequestParam String userId,
