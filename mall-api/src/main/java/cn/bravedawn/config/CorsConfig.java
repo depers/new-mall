@@ -31,16 +31,14 @@ public class CorsConfig {
         config.addAllowedOrigin("http://center.z.mukewang.com:8080");
         config.addAllowedOrigin("http://shop.z.mukewang.com");
         config.addAllowedOrigin("http://center.z.mukewang.com");
-        //
+
+        // 响应头指定了该响应的资源是否被允许与给定的来源（origin）共享
         config.addAllowedOrigin("*");
-
-        // 设置是否发送cookie信息
+        // 返回的响应是否会暴露验证信息给前端，在本项目中就是设置是否发送cookie信息
         config.setAllowCredentials(true);
-
-        // 设置允许请求的方式
+        // 返回的响应中返回服务器支持的http请求方法，设置允许请求的方式
         config.addAllowedMethod("*");
-
-        // 设置允许的header
+        // 返回的响应中返回服务器允许客户端携带的头信息，设置允许的header
         config.addAllowedHeader("*");
 
         // 2.为CORS添加url映射路径，所有请求都设置cors添加相关配置信息
