@@ -1,0 +1,1 @@
+Keepalived配置Nginx自动重启，实现7x24不间断服务
