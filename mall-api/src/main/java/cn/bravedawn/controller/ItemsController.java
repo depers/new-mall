@@ -81,6 +81,10 @@ public class ItemsController extends BaseController {
             return JsonResult.errorMsg(null);
         }
 
+        if (level == null) {
+            level = 1;
+        }
+
         if (page == null) {
             page = 1;
         }

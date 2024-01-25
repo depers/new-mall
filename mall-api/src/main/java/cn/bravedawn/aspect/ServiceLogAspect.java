@@ -1,9 +1,12 @@
 package cn.bravedawn.aspect;
 
+import cn.bravedawn.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.stereotype.Component;
 
 /**
  * @Author : fengx9
@@ -15,6 +18,7 @@ import org.aspectj.lang.annotation.Aspect;
 
 @Aspect
 @Slf4j
+@Component
 public class ServiceLogAspect {
 
 
@@ -36,6 +40,7 @@ public class ServiceLogAspect {
      * 第四处 * 代表类名，*代表所有类
      * 第五处 *(..) *代表类中的方法名，(..)表示方法中的任何参数
      *
+     * cn.bravedawn.service.impl.AddressServiceImpl#queryAll(java.lang.String)
      * @param joinPoint
      * @return
      * @throws Throwable
@@ -50,8 +55,16 @@ public class ServiceLogAspect {
         // 记录开始时间
         long begin = System.currentTimeMillis();
 
+        // 打印请求参数
+        Object[] args = joinPoint.getArgs();
+        log.info("请求参数：{}.", JsonUtils.objectToJson(args));
+
+
         // 执行目标 service
         Object result = joinPoint.proceed();
+
+        // 打印返回参数
+        log.info("响应参数：{}.", JsonUtils.objectToJson(result));
 
         // 记录结束时间
         long end = System.currentTimeMillis();
