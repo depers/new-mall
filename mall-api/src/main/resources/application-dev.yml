@@ -20,6 +20,10 @@ spring:
             max-lifetime: 1800000           # 连接的生命时长（毫秒），超时而且没被使用则被释放（retired），默认:30分钟 1800000ms
             connection-test-query: SELECT 1
 
-
-logging:
-    config: "classpath:log4j2.xml"
+#######################################
+# 项目自身配置
+#######################################
+mall:
+    payment:
+        url: "http://"
+        payReturnUrl: ""
