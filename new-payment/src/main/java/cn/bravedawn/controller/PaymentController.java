@@ -1,30 +1,30 @@
 package cn.bravedawn.controller;
 
+import cn.bravedawn.dto.JsonResult;
+import cn.bravedawn.enums.PayMethod;
+import cn.bravedawn.enums.PaymentStatus;
+import cn.bravedawn.utils.CurrencyUtils;
+import cn.bravedawn.utils.RedisOperator;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
-import com.imooc.enums.PayMethod;
-import com.imooc.enums.PaymentStatus;
 import cn.bravedawn.pojo.Orders;
 import cn.bravedawn.pojo.bo.MerchantOrdersBO;
 import cn.bravedawn.pojo.vo.PaymentInfoVO;
 import cn.bravedawn.resource.AliPayResource;
 import cn.bravedawn.resource.WXPayResource;
 import cn.bravedawn.service.PaymentOrderService;
-import com.imooc.utils.CurrencyUtils;
-import com.imooc.utils.IMOOCJSONResult;
-import com.imooc.utils.RedisOperator;
 import cn.bravedawn.wx.entity.PreOrderResult;
 import cn.bravedawn.wx.service.WxOrderService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping(value = "payment")
@@ -50,7 +50,7 @@ public class PaymentController {
 	 * 接受商户订单信息，保存到自己的数据库
 	 */
 	@PostMapping("/createMerchantOrder")
-	public IMOOCJSONResult createMerchantOrder(@RequestBody MerchantOrdersBO merchantOrdersBO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public JsonResult createMerchantOrder(@RequestBody MerchantOrdersBO merchantOrdersBO, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String merchantOrderId = merchantOrdersBO.getMerchantOrderId();             	// 订单id
 		String merchantUserId = merchantOrdersBO.getMerchantUserId();     		// 用户id
@@ -59,22 +59,22 @@ public class PaymentController {
 		String returnUrl = merchantOrdersBO.getReturnUrl();           	// 支付成功后的回调地址（学生自定义）
 
 		if (StringUtils.isBlank(merchantOrderId)) {
-			return IMOOCJSONResult.errorMsg("参数[orderId]不能为空");
+			return JsonResult.errorMsg("参数[orderId]不能为空");
 		}
 		if (StringUtils.isBlank(merchantUserId)) {
-			return IMOOCJSONResult.errorMsg("参数[userId]不能为空");
+			return JsonResult.errorMsg("参数[userId]不能为空");
 		}
 		if (amount == null || amount < 1) {
-			return IMOOCJSONResult.errorMsg("参数[realPayAmount]不能为空并且不能小于1");
+			return JsonResult.errorMsg("参数[realPayAmount]不能为空并且不能小于1");
 		}
 		if (payMethod == null) {
-			return IMOOCJSONResult.errorMsg("参数[payMethod]不能为空并且不能小于1");
+			return JsonResult.errorMsg("参数[payMethod]不能为空并且不能小于1");
 		}
 		if (payMethod != PayMethod.WEIXIN.type && payMethod != PayMethod.ALIPAY.type) {
-			return IMOOCJSONResult.errorMsg("参数[payMethod]目前只支持微信支付或支付宝支付");
+			return JsonResult.errorMsg("参数[payMethod]目前只支持微信支付或支付宝支付");
 		}
 		if (StringUtils.isBlank(returnUrl)) {
-			return IMOOCJSONResult.errorMsg("参数[returnUrl]不能为空");
+			return JsonResult.errorMsg("参数[returnUrl]不能为空");
 		}
 
 		// 保存传来的商户订单信息
@@ -83,13 +83,13 @@ public class PaymentController {
 			isSuccess = paymentOrderService.createPaymentOrder(merchantOrdersBO);
 		} catch (Exception e) {
 			e.printStackTrace();
-			IMOOCJSONResult.errorException(e.getMessage());
+			JsonResult.errorException(e.getMessage());
 		}
 
 		if (isSuccess) {
-			return IMOOCJSONResult.ok("商户订单创建成功！");
+			return JsonResult.ok("商户订单创建成功！");
 		} else {
-			return IMOOCJSONResult.errorMsg("商户订单创建失败，请重试...");
+			return JsonResult.errorMsg("商户订单创建失败，请重试...");
 		}
 	}
 
@@ -100,15 +100,15 @@ public class PaymentController {
 	 * @return
 	 */
 	@PostMapping("getPaymentCenterOrderInfo")
-	public IMOOCJSONResult getPaymentCenterOrderInfo(String merchantOrderId, String merchantUserId) {
+	public JsonResult getPaymentCenterOrderInfo(String merchantOrderId, String merchantUserId) {
 
 		if (StringUtils.isBlank(merchantOrderId) || StringUtils.isBlank(merchantUserId)) {
-			return IMOOCJSONResult.errorMsg("查询参数不能为空！");
+			return JsonResult.errorMsg("查询参数不能为空！");
 		}
 
 		Orders orderInfo = paymentOrderService.queryOrderInfo(merchantUserId, merchantOrderId);
 
-		return IMOOCJSONResult.ok(orderInfo);
+		return JsonResult.ok(orderInfo);
 	}
 
 
@@ -119,7 +119,7 @@ public class PaymentController {
 	 */
 //	@GetMapping(value="/getWXPayQRCode")
 	@PostMapping(value="/getWXPayQRCode")
-	public IMOOCJSONResult getWXPayQRCode(String merchantOrderId, String merchantUserId) throws Exception{
+	public JsonResult getWXPayQRCode(String merchantOrderId, String merchantUserId) throws Exception{
 
 //		System.out.println(wxPayResource.toString());
 
@@ -152,9 +152,9 @@ public class PaymentController {
 
 			redis.set(wxPayResource.getQrcodeKey() + ":" + merchantOrderId, qrCodeUrl, wxPayResource.getQrcodeExpire());
 
-			return IMOOCJSONResult.ok(paymentInfoVO);
+			return JsonResult.ok(paymentInfoVO);
 		} else {
-			return IMOOCJSONResult.errorMsg("该订单不存在，或已经支付");
+			return JsonResult.errorMsg("该订单不存在，或已经支付");
 		}
 	}
 
@@ -167,7 +167,7 @@ public class PaymentController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/goAlipay")
-	public IMOOCJSONResult goAlipay(String merchantOrderId, String merchantUserId) throws Exception{
+	public JsonResult goAlipay(String merchantOrderId, String merchantUserId) throws Exception{
 
 		// 查询订单详情
 		Orders waitPayOrder = paymentOrderService.queryOrderByStatus(merchantUserId, merchantOrderId, PaymentStatus.WAIT_PAY.type);
@@ -225,7 +225,7 @@ public class PaymentController {
 
 		log.info("支付宝支付 - 前往支付页面, alipayForm: \n{}", alipayForm);
 
-		return IMOOCJSONResult.ok(alipayForm);
+		return JsonResult.ok(alipayForm);
 	}
 
 }

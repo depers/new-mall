@@ -1,8 +1,8 @@
 package cn.bravedawn.service.impl;
 
+import cn.bravedawn.enums.PaymentStatus;
+import cn.bravedawn.enums.YesOrNo;
 import cn.bravedawn.mapper.OrdersMapper;
-import com.imooc.enums.PaymentStatus;
-import com.imooc.enums.YesOrNo;
 import cn.bravedawn.pojo.Orders;
 import cn.bravedawn.pojo.bo.MerchantOrdersBO;
 import cn.bravedawn.service.PaymentOrderService;
@@ -75,7 +75,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
 	}
 
 	@Transactional(propagation=Propagation.SUPPORTS)
-	String queryMerchantReturnUrl(String merchantOrderId) {
+	public String queryMerchantReturnUrl(String merchantOrderId) {
 
 		Orders queryOrder = new Orders();
 		queryOrder.setMerchantOrderId(merchantOrderId);

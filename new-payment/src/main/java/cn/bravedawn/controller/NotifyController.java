@@ -1,26 +1,25 @@
 package cn.bravedawn.controller;
 
+import cn.bravedawn.dto.JsonResult;
 import cn.bravedawn.resource.AliPayResource;
-import com.alipay.api.internal.util.AlipaySignature;
-import com.imooc.enums.PayMethod;
-import com.imooc.enums.PaymentStatus;
 import cn.bravedawn.service.PaymentOrderService;
-import com.imooc.utils.CurrencyUtils;
-import com.imooc.utils.DateUtil;
-import com.imooc.utils.IMOOCJSONResult;
-import com.imooc.utils.RedisOperator;
+import cn.bravedawn.utils.CurrencyUtils;
+import cn.bravedawn.utils.DateUtil;
 import cn.bravedawn.wx.entity.PayResult;
 import cn.bravedawn.wx.service.WxOrderService;
+import com.alipay.api.internal.util.AlipaySignature;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -178,9 +177,9 @@ public class NotifyController {
 
 
 	@GetMapping("ttt")
-	public IMOOCJSONResult test() {
+	public JsonResult test() {
 		paymentOrderService.updateOrderPaid("190718FW17BFP8SW", 1001);
-		return IMOOCJSONResult.ok();
+		return JsonResult.ok();
 	}
 
 }
