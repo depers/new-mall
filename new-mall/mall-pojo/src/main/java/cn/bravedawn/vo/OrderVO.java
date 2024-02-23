@@ -1,6 +1,9 @@
 package cn.bravedawn.vo;
 
+import cn.bravedawn.bo.ShopCartBO;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @Author : fengx9
@@ -13,4 +16,6 @@ public class OrderVO {
 
     private String orderId;
     private MerchantOrdersVO merchantOrdersVO;
+    private List<ShopCartBO> toBeRemovedShopcatdList;
+
 }

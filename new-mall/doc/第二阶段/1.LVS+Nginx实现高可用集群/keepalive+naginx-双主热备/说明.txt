@@ -4,5 +4,5 @@ keepalived安装规划：
 2. 主Nginx：192.168.156.136
 3. 备Nginx：192.168.156.135
 
-这里有两个VIP，就是说这两台Keepalived都是主节点，他们互为对方的备用节点。
+这里有两个VIP，就是说这两台Keepalived都是主节点，他们互为对方的备用节点，这两台主备节点是同时提供服务的。
 如果一个Keepalived节点挂掉了，另一个keepalived节点会接管挂掉节点的VIP，此时所有的请求都会打到这台Keepalived节点上。

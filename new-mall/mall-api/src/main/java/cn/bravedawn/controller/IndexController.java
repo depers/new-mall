@@ -6,11 +6,15 @@ import cn.bravedawn.pojo.Carousel;
 import cn.bravedawn.pojo.Category;
 import cn.bravedawn.service.CarouselService;
 import cn.bravedawn.service.CategoryService;
+import cn.bravedawn.utils.JsonUtils;
+import cn.bravedawn.utils.RedisOperator;
 import cn.bravedawn.vo.CategoryVO;
 import cn.bravedawn.vo.NewItemsVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import com.google.common.collect.Lists;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,10 +34,21 @@ public class IndexController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private RedisOperator redisOperator;
+
     @Operation(summary = "获取首页轮播图列表", description = "获取首页轮播图列表", method = "GET")
     @GetMapping("/carousel")
     public JsonResult carousel() {
-        List<Carousel> list = carouselService.queryAll(YesOrNo.YES.type);
+        List<Carousel> list = Lists.newArrayList();
+        String carouselStr = redisOperator.get("carousel");
+
+        if (StringUtils.isBlank(carouselStr)) {
+            list = carouselService.queryAll(YesOrNo.YES.type);
+            redisOperator.set("carousel", JsonUtils.objectToJson(list));
+        } else {
+            list = JsonUtils.jsonToList(carouselStr, Carousel.class);
+        }
         return JsonResult.ok(list);
     }
 
@@ -46,7 +61,15 @@ public class IndexController {
     @Operation(summary = "获取商品分类(一级分类)", description = "获取商品分类(一级分类)", method = "GET")
     @GetMapping("/cats")
     public JsonResult cats() {
-        List<Category> list = categoryService.queryAllRootLevelCat();
+        List<Category> list = Lists.newArrayList();
+        String catsStr = redisOperator.get("cats");
+
+        if (StringUtils.isBlank(catsStr)) {
+            list = categoryService.queryAllRootLevelCat();
+            redisOperator.set("cats", JsonUtils.objectToJson(list));
+        } else {
+            list = JsonUtils.jsonToList(catsStr, Category.class);
+        }
         return JsonResult.ok(list);
     }
 
@@ -60,8 +83,15 @@ public class IndexController {
         if (rootCatId == null) {
             return JsonResult.errorMsg("分类不存在");
         }
+        List<CategoryVO> list = Lists.newArrayList();
+        String subCatStr = redisOperator.get("subCat:" + rootCatId);
 
-        List<CategoryVO> list = categoryService.getSubCatList(rootCatId);
+        if (StringUtils.isBlank(subCatStr)) {
+            list = categoryService.getSubCatList(rootCatId);
+            redisOperator.set("subCat:" + rootCatId, JsonUtils.objectToJson(list));
+        } else {
+            list = JsonUtils.jsonToList(subCatStr, CategoryVO.class);
+        }
         return JsonResult.ok(list);
     }
 

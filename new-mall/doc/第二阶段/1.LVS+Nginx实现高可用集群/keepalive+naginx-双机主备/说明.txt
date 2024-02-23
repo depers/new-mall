@@ -3,4 +3,4 @@ keepalived安装规划：
 2. 主Nginx：192.168.156.136
 3. 备Nginx：192.168.156.135
 
-这个配置主要是为了利用Keepalived来保证Nginx的高可用
+这个配置主要是为了利用Keepalived来保证Nginx的高可用，在上面161是虚拟ip，136和135分别是两台服务器，这两台服务器上都安装了keepalived，只不过136上是主keepalived，135是从keeplived。同一时刻，只有一台nginx提供服务。
