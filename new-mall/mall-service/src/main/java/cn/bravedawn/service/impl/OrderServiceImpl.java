@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -92,6 +93,10 @@ public class OrderServiceImpl implements OrderService {
         String itemSpecIdArr[] = itemSpecIds.split(",");
         Integer totalAmount = 0;    // 商品原价累计
         Integer realPayAmount = 0;  // 优惠后的实际支付价格累计
+
+        // 需要从购物车移除的商品信息
+        List<ShopCartBO> toBeRemovedShopcartList = new ArrayList<>();
+
         for (String itemSpecId : itemSpecIdArr) {
 
             // 整合redis后，商品购买的数量重新从redis的购物车中获取
@@ -149,6 +154,7 @@ public class OrderServiceImpl implements OrderService {
         OrderVO orderVO = new OrderVO();
         orderVO.setOrderId(orderId);
         orderVO.setMerchantOrdersVO(merchantOrdersVO);
+        orderVO.setToBeRemovedShopcatdList(toBeRemovedShopcartList);
 
         return orderVO;
     }
