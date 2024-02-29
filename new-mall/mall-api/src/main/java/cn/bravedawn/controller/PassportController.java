@@ -9,6 +9,7 @@ import cn.bravedawn.utils.CookieUtils;
 import cn.bravedawn.utils.JsonUtils;
 import cn.bravedawn.utils.MD5Utils;
 import cn.bravedawn.utils.RedisOperator;
+import cn.bravedawn.vo.UserVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -124,10 +125,12 @@ public class PassportController extends BaseController{
 
         userResult = setNullProperty(userResult);
 
-        CookieUtils.setCookie(request, response, "user",
-                JsonUtils.objectToJson(userResult), true);
+        // 4. 生成用户token，存入redis会话
+        UserVO userVO = conventUser(userResult);
 
-        // TODO 生成用户token，存入redis会话
+        // 5. 添加cookie信息
+        CookieUtils.setCookie(request, response, "user",
+                JsonUtils.objectToJson(userVO), true);
 
         // 同步购物车数据
         syncShopCartData(userResult.getId(), request, response);
@@ -159,7 +162,8 @@ public class PassportController extends BaseController{
         // 用户退出登录，需要清空购物车
         CookieUtils.deleteCookie(request, response, FOODIE_SHOPCART);
 
-        // TODO 分布式会话中需要清除用户数据
+        // 用户退出登录，清除redis中user的会话信息
+        redisOperator.del(REDIS_USER_TOKEN + ":" + userId);
 
         return JsonResult.ok();
     }

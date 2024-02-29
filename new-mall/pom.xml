@@ -15,6 +15,7 @@
         <module>mall-mapper</module>
         <module>mall-service</module>
         <module>mall-pojo</module>
+        <module>mall-sso</module>
     </modules>
     <description>该项目是电商项目的重构版本</description>
 

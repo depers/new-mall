@@ -1,0 +1,17 @@
+server:
+  port: 8090
+
+spring:
+  datasource:                                           # 数据源的相关配置
+    url: jdbc:mysql://localhost:3306/mall-dev?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+    password: fx1212
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+#        cluster:
+#            nodes: 192.168.156.201:6379,192.168.156.202:6379,192.168.156.203:6379,192.168.156.204:6379,192.168.156.205:6379,192.168.156.206:6379
+#        password: fx1212
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

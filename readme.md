@@ -1,31 +1,19 @@
-# 商场项目二阶段的开发内容
+# 商场项目三阶段的开发内容
 
 ## 工程介绍
 * new-mall：商城主体项目
+  * mall-api
+  * mall-common
+  * mall-mapper
+  * mall-service
+  * mall-sso
 * new-payment：支付项目
 
 ## 本阶段内容
-1. 集群架构
-   * Nginx核心原理解析-反向代理/负载均衡/动静分离
-   * Nginx负载均衡-策略解析/故障转移
-   * 一致性哈希算法解析
-   * Nginx单实例存在的问题与集群原理解析
-   * LVS+Keepalived+Nginx实现高可用集群
-   * Nginx实现心跳机制与自动重启
-   * Nginx实现Tomcat集群
-   * 动静分离网站架构与传统网站架构对比解析
-2. 分布式缓存
-   * 分布式缓存技术选型-Redis VS Memcache
-   * Redis架构与原理解析
-   * Redis核心原理解析-1 持久化机制/主从架构模式
-   * Redis核心原理解析-2 主从复制/无磁盘化复制
-   * Redis核心原理解析-3 哨兵机制/集群/雪崩
-   * 主从复制高可用 Redis集群搭建
-   * 缓存雪崩的解决方案实现
-   * 缓存穿透的解决方案实现
-   * Redis批量查询优化设计
+* Redis+Cookie实现前后端分离与分布式会话
+* 单点登录 SSO
 
 ## 涉及关键知识点
-1. LVS+keepalived+Nginx集群的配置
+
 
 
