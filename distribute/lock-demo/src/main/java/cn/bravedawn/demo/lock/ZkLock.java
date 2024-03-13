@@ -21,7 +21,7 @@ public class ZkLock implements AutoCloseable, Watcher {
     private String zkNode;
 
     public ZkLock() throws IOException {
-        this.zooKeeper = new ZooKeeper("localhost:2181", 10000, this);
+        this.zooKeeper = new ZooKeeper("localhost:2181", 600000, this);
     }
     
     public boolean getLock(String businessCode) {
@@ -30,6 +30,7 @@ public class ZkLock implements AutoCloseable, Watcher {
             String rootNode = "/" + businessCode;
             Stat stat = zooKeeper.exists(rootNode, false);
             if (stat == null) {
+                // 对根节点要进行持久化
                 zooKeeper.create(rootNode, businessCode.getBytes(),
                         ZooDefs.Ids.OPEN_ACL_UNSAFE,
                         CreateMode.PERSISTENT);
@@ -51,7 +52,7 @@ public class ZkLock implements AutoCloseable, Watcher {
                 return true;
             }
 
-            // 不是第一个子节点，则监听前一个节点
+            // 不是第一个子节点，则当前节点监听他的前一个节点
             String lastNode = firstNode;
             for (String node : childrenNode) {
                 if (zkNode.endsWith(node)) {
