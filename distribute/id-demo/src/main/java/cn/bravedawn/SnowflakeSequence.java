@@ -117,9 +117,14 @@ public class SnowflakeSequence {
 
 
     public static void main(String[] args) {
+        // SnowflakeSequence snowflakeSequence = new SnowflakeSequence(0, 0);
+        // System.out.println(snowflakeSequence.getNextNum());
+        // System.out.println(-1L ^ (-1L << 64));
+
         SnowflakeSequence snowflakeSequence = new SnowflakeSequence(0, 0);
-        System.out.println(snowflakeSequence.getNextNum());
-        System.out.println(-1L ^ (-1L << 64));
+        long nowTimeStamps = snowflakeSequence.timeGen();
+
+
     }
 
 
